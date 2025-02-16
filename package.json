@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "node --import @swc-node/register/esm-register src/index.ts"
+    "dev": "TS_NODE_PROJECT=./tsconfig.server.json node --import @swc-node/register/esm-register src/index.ts"
   },
   "repository": {
     "type": "git",
