@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "TS_NODE_PROJECT=./tsconfig.server.json node --import @swc-node/register/esm-register src/index.ts"
+    "dev": "TS_NODE_PROJECT=./tsconfig.server.json node --watch-path=./server --import @swc-node/register/esm-register server/index.ts --dev"
   },
   "repository": {
     "type": "git",
@@ -27,12 +27,30 @@
   },
   "homepage": "https://github.com/FrancoRATOVOSON/vifyre#readme",
   "dependencies": {
-    "fastify": "^5.2.1"
+    "@fastify/vite": "8.0.0-alpha.2",
+    "@mcansh/remix-fastify": "^4.0.5",
+    "@react-router/node": "^7.1.5",
+    "@react-router/serve": "^7.1.5",
+    "fastify": "^5.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.1.5"
   },
   "devDependencies": {
+    "@react-router/dev": "^7.1.5",
     "@swc-node/register": "^1.10.9",
+    "@tailwindcss/vite": "^4.0.6",
     "@types/node": "^22.13.4",
+    "@types/react": "^19.0.9",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
     "fastify-tsconfig": "^3.0.0",
-    "typescript": "^5.7.3"
+    "tailwindcss": "^4.0.6",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }
