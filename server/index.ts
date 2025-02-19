@@ -2,6 +2,7 @@ import fastifyVite from "@fastify/vite";
 import fastify from "fastify";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { renderToString } from "react-dom/server";
 
 async function main(dev?:boolean) {
   const server = fastify()
@@ -12,7 +13,15 @@ async function main(dev?:boolean) {
   await server.register(fastifyVite, {
     root: path.resolve(dirname,'..'),
     dev: dev || process.argv.includes('--dev'),
-    spa: true
+    // @ts-ignore
+    async createRenderFunction({createApp}) {
+      return () => {
+        return {
+           // @ts-ignore
+          element: renderToString(createApp())
+        }
+      }
+    },
   })
 
   server.get('/', (req,reply) => {
