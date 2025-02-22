@@ -1,39 +1,25 @@
 {
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/.server/**/*.ts",
-    "**/.server/**/*.tsx",
-    "**/.client/**/*.ts",
-    "**/.client/**/*.tsx",
-    ".react-router/types/**/*"
-, "vite.config.js"  ],
+  "include": ["client"],
   "compilerOptions": {
-    "allowJs": true,
-    "baseUrl": ".",
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "module": "es2022",
-    "moduleDetection": "force",
-    "moduleResolution": "bundler",
-    "noImplicitOverride": true,
-    "resolveJsonModule": true,
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "strict": true,
-    "target": "es2020",
-    "types": ["@react-router/node", "vite/client"],
-    "verbatimModuleSyntax": true,
-    "paths": {
-      "@client/*": ["./client/*"],
-      "@server/*": ["./server/*"],
-      "@routes/*": ["./client/routes/*"],
-      "@components/*": ["./client/components/*"],
-      "@util/*": ["./client/util/*"],
-      "@t/*": ["./types/*"]
-    },
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
     "noEmit": true,
-    "rootDirs": [".", "./.react-router/types"],
-    "plugins": [{"name": "@react-router/dev"}]
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
   }
 }
