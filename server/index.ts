@@ -3,7 +3,7 @@ import env from './config/env'
 
 async function main() {
   const port = env.PORT
-  const app = createApp()
+  const app = await createApp()
 
   try {
     await app.ready()

@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "TS_NODE_PROJECT=./tsconfig.node.json node --watch-path=./server --import @swc-node/register/esm-register --env-file=.env server/index.ts"
+    "dev": "TS_NODE_PROJECT=./tsconfig.node.json node --import @swc-node/register/esm-register --env-file=.env server/index.ts"
   },
   "repository": {
     "type": "git",
@@ -27,11 +27,13 @@
   },
   "homepage": "https://github.com/FrancoRATOVOSON/vifyre#readme",
   "dependencies": {
+    "@fastify/middie": "^9.0.3",
     "envalid": "^8.0.0",
     "fastify": "^5.2.1",
     "pino": "^9.6.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "vite": "^6.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -50,7 +52,6 @@
     "tailwindcss": "^4.0.6",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.1.0",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "engines": {

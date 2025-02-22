@@ -14,7 +14,7 @@ export default tseslint.config(
     }
   },
   {
-    ignores: ['**/dist']
+    ignores: ['**/dist', '**/node_modules']
   },
   {
     plugins: {
@@ -25,8 +25,10 @@ export default tseslint.config(
         'error',
         {
           groups: [
+            'builtin',
+            'react',
             'type',
-            ['builtin', 'external'],
+            'external',
             'internal-type',
             'internal',
             ['parent-type', 'sibling-type', 'index-type'],
@@ -41,7 +43,15 @@ export default tseslint.config(
           partitionByComment: false,
           partitionByNewLine: false,
           specialCharacters: 'keep',
-          type: 'alphabetical'
+          type: 'alphabetical',
+          customGroups: {
+            value: {
+              react: ['^react$', '^react-.+']
+            },
+            type: {
+              react: ['^react$', '^react-.+']
+            }
+          }
         }
       ]
     }
