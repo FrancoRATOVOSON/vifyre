@@ -32,14 +32,21 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.21.0",
     "@swc-node/register": "^1.10.9",
     "@tailwindcss/vite": "^4.0.6",
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.9",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^3.8.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-perfectionist": "^4.9.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "prettier": "^3.5.2",
     "tailwindcss": "^4.0.6",
     "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.1",
     "vite": "^6.1.0",
     "vite-tsconfig-paths": "^5.1.4"
   },
