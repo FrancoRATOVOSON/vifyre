@@ -1,4 +1,4 @@
-import environment from './env'
+import { env } from './env'
 
 const envToLogger = {
   development: {
@@ -14,4 +14,4 @@ const envToLogger = {
   test: false
 }
 
-export default envToLogger[environment.NODE_ENV]
+export const logger = envToLogger[env.NODE_ENV]

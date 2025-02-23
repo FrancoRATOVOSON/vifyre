@@ -2,8 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import env from '../config/env'
-import { createServer } from '../config/server'
+import { createServer, env } from '../config'
 import { createViteMiddleWare } from '../middlewares/vite'
 
 const templatePath = env.NODE_ENV === 'production' ? './client/index.html' : '../client/index.html'

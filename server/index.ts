@@ -1,5 +1,5 @@
 import { createApp } from './app'
-import env from './config/env'
+import { env } from './config'
 
 async function main() {
   const port = env.PORT

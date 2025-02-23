@@ -1,7 +1,7 @@
 import fastify from 'fastify'
 
-import env from './env'
-import logger from './logger'
+import { env } from './env'
+import { logger } from './logger'
 
 export function createServer() {
   const server = fastify({

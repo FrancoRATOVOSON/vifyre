@@ -6,7 +6,7 @@ const appPortValidator = makeValidator<number>(value => {
   return port
 })
 
-const env = cleanEnv(
+export const env = cleanEnv(
   process.env,
   {
     PORT: appPortValidator(),
@@ -23,5 +23,3 @@ const env = cleanEnv(
     }
   }
 )
-
-export default env
