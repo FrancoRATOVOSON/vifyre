@@ -6,7 +6,7 @@ function App() {
   const [count, setCount] = useState(0)
   return (
     <>
-      <div>
+      <div className='w-full flex justify-center gap-10 items-center'>
         <a href="https://vite.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
         </a>

@@ -25,8 +25,11 @@ export async function createApp() {
       const { render } = await vite.ssrLoadModule(path.resolve(__dirname, '../client/index.tsx'))
 
       const appHtml = await render(url)
-      const html = template.replace(`<!--app-html-->`, () => appHtml)
+      const html = template
+        .replace(`<!--app-head-->`, appHtml.head ?? '')
+        .replace(`<!--app-html-->`, appHtml.html ?? '')
 
+      server.log.info(html)
       reply.type('text/html').send(html)
     } catch (error) {
       vite.ssrFixStacktrace(error)
