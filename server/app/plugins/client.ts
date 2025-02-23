@@ -19,10 +19,13 @@ export const clientPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
   async (server, { viteSertver: vite }) => {
     if (env.NODE_ENV === 'production')
       server.register(fastifyStatic, {
-        root: path.resolve(__dirname, clientPath)
+        root: path.resolve(__dirname, clientPath),
+        wildcard: false,
+        index: false,
+        preCompressed: true
       })
 
-    server.get('/', async (request, reply) => {
+    server.get('*', async (request, reply) => {
       const url = request.url
       try {
         const templateHtml = await fs.readFile(
