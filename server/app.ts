@@ -29,7 +29,6 @@ export async function createApp() {
         .replace(`<!--app-head-->`, appHtml.head ?? '')
         .replace(`<!--app-html-->`, appHtml.html ?? '')
 
-      server.log.info(html)
       reply.type('text/html').send(html)
     } catch (error) {
       vite.ssrFixStacktrace(error)
