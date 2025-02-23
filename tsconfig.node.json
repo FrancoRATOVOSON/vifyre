@@ -15,8 +15,9 @@
     "skipLibCheck": true,
     "lib": [
       "ESNext"
-    ],
+    ]
 
   },
-  "include": ["server","vite.config.ts"],
+  "include": ["./server","./vite.config.ts"],
+  "exclude": ["./client","node_modules"]
 }
