@@ -6,6 +6,7 @@ import fastifyPlugin from 'fastify-plugin'
 import { ViteDevServer } from 'vite'
 
 import { env } from '../../config'
+import { getMimeType } from '../../utils/helpers'
 
 const clientPath = env.NODE_ENV === 'production' ? '../../client' : '../../../client'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -44,37 +45,11 @@ export const vitePlugin = fastifyPlugin<FastifyPluginOptionsType>(
           reply.type('text/html').send(html)
         } else {
           const ext = path.extname(url).toLowerCase()
-          switch (ext) {
-            case '.js':
-              reply.type('application/javascript')
-              break
-            case '.css':
-              reply.type('text/css')
-              break
-            case '.json':
-              reply.type('application/json')
-              break
-            case '.png':
-              reply.type('image/png')
-              break
-            case '.jpg':
-            case '.jpeg':
-              reply.type('image/jpeg')
-              break
-            case '.gif':
-              reply.type('image/gif')
-              break
-            case '.svg':
-              reply.type('image/svg+xml')
-              break
-            default:
-              reply.type('text/plain')
-          }
+          reply.type(getMimeType(ext))
           const filePath = path.resolve(__dirname, clientPath, url.slice(1))
           const fileContent = await fs.readFile(filePath)
           reply.send(fileContent)
         }
-        // reply.type('text/html').send(html)
       } catch (error) {
         vite.ssrFixStacktrace(error)
         server.log.error(error)
