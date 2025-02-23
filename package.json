@@ -5,7 +5,14 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon server/index.ts"
+    "dev": "nodemon server/index.ts",
+    "prebuild": "rm -rf dist",
+    "build:client": "vite build --ssrManifest",
+    "build:server": "vite build --ssr index.tsx --outDir ../dist/server",
+    "build:app": "node ./scripts/build.js",
+    "build": "npm run build:client && npm run build:server && npm run build:app",
+    "start": "node --env-file=.env dist/index.js",
+    "lint": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -30,6 +37,7 @@
     "@fastify/middie": "^9.0.3",
     "envalid": "^8.0.0",
     "fastify": "^5.2.1",
+    "fastify-plugin": "^5.0.1",
     "pino": "^9.6.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

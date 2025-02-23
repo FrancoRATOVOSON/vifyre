@@ -36,21 +36,14 @@ async function getTSFiles(dir) {
 
 // 3️⃣ Resolve Imports & Add `.js` Extension
 async function fixImports(sourceCode, filePath) {
-  return sourceCode.replace(
-    /import\s+(.+?)\s+from\s+["'](.+?)["'];?/g,
-    (match, importClause, importPath) => {
+  return sourceCode
+    .replace(/import\s+(.+?)\s+from\s+["'](.+?)["'];?/g, (match, importClause, importPath) => {
       if (isBuiltin(importPath)) return match // ✅ Keep as-is for built-ins
       try {
         const resolved = moduleResolve(importPath, new URL(`file://${filePath}`)).toString()
 
         if (resolved.includes('node_modules')) {
           return match // ✅ Keep as-is dependencies
-        }
-
-        if (importPath.startsWith('.')) {
-          console.log(`🔍 Resolved import "${importPath}" in ${filePath} to "${resolved}"`)
-          const resolvedPath = resolved.endsWith('index.js') ? `${importPath}/index` : importPath // ✅ Add /index.js if needed
-          return `import ${importClause} from "${resolvedPath}.js";` // ✅ Add .js
         }
 
         return match // ✅ Keep other imports unchanged
@@ -67,8 +60,30 @@ async function fixImports(sourceCode, filePath) {
             return match
         }
       }
-    }
-  )
+    }) // ✅ Handle export statements (named & wildcard exports)
+    .replace(/export\s+(.*?)\s+from\s+["'](.+?)["'];?/g, (match, exportClause, exportPath) => {
+      if (isBuiltin(exportPath)) return match // ✅ Keep as-is for built-ins
+      try {
+        const resolved = moduleResolve(exportPath, new URL(`file://${filePath}`)).toString()
+
+        if (resolved.includes('node_modules')) {
+          return match // ✅ Keep as-is for built-ins or dependencies
+        }
+
+        return match // ✅ Keep other exports unchanged
+      } catch (err) {
+        const resolved = resolve(exportPath, `file://${filePath}`)
+        if (resolved.includes('node_modules')) return match // ✅ Keep as-is dependencies
+        switch (err.code) {
+          case 'ERR_UNSUPPORTED_DIR_IMPORT':
+            return `export ${exportClause} from "${exportPath}/index.js";` // ✅ Add index.js
+          case 'ERR_MODULE_NOT_FOUND':
+            return `export ${exportClause} from "${exportPath}.js";` // ✅ Add .js
+          default:
+            return match
+        }
+      }
+    })
 }
 
 // 4️⃣ Process all `.ts` files
