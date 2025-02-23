@@ -7,5 +7,8 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig(() => ({
   root: join(import.meta.dirname, 'client'),
-  plugins: [tailwindcss(), viteReact(), tsconfigPaths()]
+  plugins: [tailwindcss(), viteReact(), tsconfigPaths()],
+  build: {
+    outDir: join(import.meta.dirname, 'dist/client')
+  }
 }))
