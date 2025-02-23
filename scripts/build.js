@@ -1,10 +1,12 @@
 // @ts-check
 import { promises as fs } from 'node:fs'
+import { isBuiltin } from 'node:module'
 import path from 'node:path'
 import { cwd } from 'node:process'
+import { URL } from 'node:url'
 
 import { transformFile } from '@swc/core'
-import { resolve } from 'import-meta-resolve'
+import { moduleResolve, resolve } from 'import-meta-resolve'
 import { convert } from 'tsconfig-to-swcconfig'
 
 // 1️⃣ Load SWC options from tsconfig
@@ -37,21 +39,33 @@ async function fixImports(sourceCode, filePath) {
   return sourceCode.replace(
     /import\s+(.+?)\s+from\s+["'](.+?)["'];?/g,
     (match, importClause, importPath) => {
+      if (isBuiltin(importPath)) return match // ✅ Keep as-is for built-ins
       try {
-        const resolved = resolve(importPath, `file://${filePath}`)
+        const resolved = moduleResolve(importPath, new URL(`file://${filePath}`)).toString()
 
-        if (resolved.startsWith('node:') || resolved.includes('node_modules')) {
-          return match // ✅ Keep as-is for built-ins or dependencies
+        if (resolved.includes('node_modules')) {
+          return match // ✅ Keep as-is dependencies
         }
 
         if (importPath.startsWith('.')) {
-          return `import ${importClause} from "${importPath}.js";` // ✅ Add .js
+          console.log(`🔍 Resolved import "${importPath}" in ${filePath} to "${resolved}"`)
+          const resolvedPath = resolved.endsWith('index.js') ? `${importPath}/index` : importPath // ✅ Add /index.js if needed
+          return `import ${importClause} from "${resolvedPath}.js";` // ✅ Add .js
         }
 
         return match // ✅ Keep other imports unchanged
       } catch (err) {
-        console.warn(`⚠️ Error resolving import "${importPath}" in ${filePath}: ${err}`)
-        return match
+        const resolved = resolve(importPath, `file://${filePath}`)
+        if (resolved.includes('node_modules')) return match // ✅ Keep as-is dependencies
+
+        switch (err.code) {
+          case 'ERR_UNSUPPORTED_DIR_IMPORT':
+            return `import ${importClause} from "${importPath}/index.js";` // ✅ Add index.js
+          case 'ERR_MODULE_NOT_FOUND':
+            return `import ${importClause} from "${importPath}.js";` // ✅ Add .js
+          default:
+            return match
+        }
       }
     }
   )
