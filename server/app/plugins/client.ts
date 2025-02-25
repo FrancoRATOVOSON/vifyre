@@ -37,11 +37,12 @@ export const clientPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
         let render: (url: string) => Promise<{ head: string; html: string }>
         if (env.NODE_ENV !== 'production' && vite) {
           template = await vite.transformIndexHtml(url, templateHtml)
-          render = (await vite.ssrLoadModule(path.resolve(__dirname, clientPath, 'index.tsx')))
-            .render
+          render = (
+            await vite.ssrLoadModule(path.resolve(__dirname, clientPath, 'entry-server.tsx'))
+          ).render
         } else {
           template = templateHtml
-          render = (await import(path.resolve(__dirname, '../../server/index.js'))).render
+          render = (await import(path.resolve(__dirname, '../../server/entry-server.js'))).render
         }
 
         const appHtml = await render(url)
