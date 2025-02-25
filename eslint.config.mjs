@@ -30,7 +30,7 @@ export default tseslint.config(
     }
   },
   {
-    ignores: ['**/dist', '**/node_modules', 'client/route.tsx']
+    ignores: ['**/dist', '**/node_modules']
   },
   {
     plugins: {
