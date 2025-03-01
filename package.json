@@ -8,7 +8,7 @@
     "dev": "nodemon server/index.ts",
     "prebuild": "rm -rf dist",
     "build:client": "vite build",
-    "build:server": "vite build --ssr index.tsx --outDir ../dist/server",
+    "build:server": "vite build --ssr entry.server.tsx --outDir ../dist/server",
     "build:app": "node ./scripts/build.js",
     "build": "npm run build:client && npm run build:server && npm run build:app",
     "start": "node --env-file=.env dist/index.js",
