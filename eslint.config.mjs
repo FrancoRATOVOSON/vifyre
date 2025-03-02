@@ -30,7 +30,7 @@ export default tseslint.config(
     }
   },
   {
-    ignores: ['**/dist', '**/node_modules']
+    ignores: ['**/dist', '**/node_modules', '**/build']
   },
   {
     plugins: {
@@ -46,10 +46,8 @@ export default tseslint.config(
             'react',
             'type',
             'external',
-            'internal-type',
-            'internal',
-            ['parent-type', 'sibling-type', 'index-type'],
-            ['parent', 'sibling', 'index'],
+            ['internal-type', 'parent-type', 'sibling-type', 'index-type'],
+            ['internal', 'parent', 'sibling', 'index'],
             'object',
             'unknown'
           ],

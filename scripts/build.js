@@ -12,7 +12,8 @@ import { convert } from 'tsconfig-to-swcconfig'
 // 1️⃣ Load SWC options from tsconfig
 const swcOptions = convert('tsconfig.node.json', cwd(), {
   jsc: {
-    transform: undefined
+    transform: undefined,
+    baseUrl: '/'
   }
 })
 

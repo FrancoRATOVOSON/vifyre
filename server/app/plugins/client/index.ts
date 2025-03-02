@@ -1,15 +1,15 @@
-import fs from 'node:fs/promises'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
 import fastifyStatic from '@fastify/static'
 import fastifyPlugin from 'fastify-plugin'
+
 import { ViteDevServer } from 'vite'
 
-import { env } from '../../../config'
-import { fastifyToRequest } from '../../../utils/helpers'
+import { createReactRouterHandler } from './handler'
+import { env } from '#server/config'
 
-const clientPath = env.NODE_ENV === 'production' ? '../../client' : '../../../client'
+const clientPath = '../../../client'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 type FastifyPluginClientOptionsType = {
@@ -18,45 +18,43 @@ type FastifyPluginClientOptionsType = {
 
 export const clientPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
   async (server, { viteSertver: vite }) => {
-    if (env.NODE_ENV === 'production')
+    if (env.NODE_ENV === 'production') {
       server.register(fastifyStatic, {
-        root: path.resolve(__dirname, clientPath),
+        root: path.resolve(__dirname, clientPath, 'client/assets'),
+        prefix: '/assets',
+        wildcard: true,
+        index: false,
+        preCompressed: true,
+        decorateReply: false
+      })
+      server.register(fastifyStatic, {
+        root: path.resolve(__dirname, clientPath, 'client/assets'),
+        prefix: '/',
         wildcard: false,
         index: false,
         preCompressed: true
       })
+    }
+
+    const handler = createReactRouterHandler({
+      build: () =>
+        env.NODE_ENV === 'production'
+          ? import(`${clientPath}/server/index.js`)
+          : // @ts-expect-error - virtual module provided by React Router at build time
+            vite.ssrLoadModule('virtual:react-router/server-build'),
+      getLoadContext: () => ({ someKey: 'someValue' }),
+      mode: env.NODE_ENV
+    })
 
     server.get('*', async (request, reply) => {
-      const url = request.url
       try {
-        const templateHtml = await fs.readFile(
-          path.resolve(__dirname, clientPath, 'index.html'),
-          'utf-8'
-        )
-
-        let template: string
-        let render: (request: Request) => Promise<{ head: string; html: string }>
-        if (env.NODE_ENV !== 'production' && vite) {
-          template = await vite.transformIndexHtml(url, templateHtml)
-          render = (
-            await vite.ssrLoadModule(path.resolve(__dirname, clientPath, 'entry.server.tsx'))
-          ).render
-        } else {
-          template = templateHtml
-          render = (await import(path.resolve(__dirname, '../../server/entry.server.js'))).render
-        }
-
-        const req = fastifyToRequest(request)
-        const appHtml = await render(req)
-        const html = template
-          .replace(`<!--app-head-->`, appHtml.head ?? '')
-          .replace(`<!--app-html-->`, appHtml.html ?? '')
-
-        reply.type('text/html').send(html)
+        return handler(request, reply)
       } catch (error) {
-        vite?.ssrFixStacktrace(error)
+        vite?.ssrFixStacktrace(error as Error)
         server.log.error(error)
-        reply.status(500).send(error.message ? error.message : 'Internal Server Error')
+        reply
+          .status(500)
+          .send((error as Error).message ? (error as Error).message : 'Internal Server Error')
       }
     })
   }
