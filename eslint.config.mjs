@@ -41,7 +41,8 @@ export default tseslint.config(
         'error',
         {
           groups: [
-            'builtin',
+            ['node', 'builtin'],
+            'fastify',
             'react',
             'type',
             'external',
@@ -63,10 +64,18 @@ export default tseslint.config(
           type: 'alphabetical',
           customGroups: {
             value: {
-              react: ['^react$', '^react-.+']
+              node: ['node:*'],
+              react: ['^react$', '^react-.+'],
+              fastify: ['fastify'],
+              fastifyPlugins: ['@fastify/*'],
+              fastifyCustom: ['fastify-*']
             },
             type: {
-              react: ['^react$', '^react-.+']
+              node: ['node:*'],
+              react: ['^react$', '^react-.+'],
+              fastify: ['fastify'],
+              fastifyPlugins: ['@fastify/*'],
+              fastifyCustom: ['fastify-*']
             }
           }
         }
