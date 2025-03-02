@@ -59,6 +59,7 @@ export default tseslint.config(
           partitionByComment: false,
           partitionByNewLine: false,
           specialCharacters: 'keep',
+          internalPattern: ['#server/*', '#client/*'],
           type: 'alphabetical',
           customGroups: {
             value: {
