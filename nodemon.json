@@ -1,6 +1,6 @@
 {
   "restartable": "rs",
-  "ignore": [".git", "node_modules", "client"],
+  "ignore": [".git", "node_modules", "src/client"],
   "verbose": true,
   "execMap": {
     "ts": "node --import @swc-node/register/esm-register  --env-file=.env"
@@ -8,7 +8,7 @@
   "events": {
     "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
   },
-  "watch": ["vite.config.ts", ".env", "server/", "./client/index.tsx"],
+  "watch": ["vite.config.ts", ".env", "src/"],
   "env": {
     "TS_NODE_PROJECT": "./tsconfig.node.json"
   },
