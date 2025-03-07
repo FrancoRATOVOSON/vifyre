@@ -13,22 +13,28 @@ import { convert } from 'tsconfig-to-swcconfig'
 const swcOptions = convert('tsconfig.node.json', cwd(), {
   jsc: {
     transform: undefined,
-    baseUrl: '/'
+    baseUrl: cwd()
   }
 })
 
-const SERVER_DIR = path.resolve(cwd(), 'server')
+const SERVER_DIR = path.resolve(cwd(), 'src')
 const DIST_DIR = path.resolve(cwd(), 'dist')
 
 // Ensure dist folder exists
 await fs.mkdir(DIST_DIR, { recursive: true })
 
-// 2️⃣ Find all `.ts` files recursively in `server/`
+// 2️⃣ Find all `.ts` files recursively in `src/`
 async function getTSFiles(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true })
   const files = await Promise.all(
     entries.map(entry => {
       const fullPath = path.join(dir, entry.name)
+
+      // Ignore the `src/client` directory
+      if (fullPath.includes('src/client')) {
+        return null
+      }
+
       return entry.isDirectory() ? getTSFiles(fullPath) : fullPath.endsWith('.ts') ? fullPath : null
     })
   )
