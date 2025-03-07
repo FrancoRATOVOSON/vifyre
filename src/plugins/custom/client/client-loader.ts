@@ -7,16 +7,16 @@ import fastifyPlugin from 'fastify-plugin'
 import { ViteDevServer } from 'vite'
 
 import { createReactRouterHandler } from './handler'
-import { env } from '#server/config'
+import { env } from '#/config'
 
-const clientPath = '../../../client'
+const clientPath = '../../../'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 type FastifyPluginClientOptionsType = {
   viteSertver?: ViteDevServer
 }
 
-export const clientPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
+export const clientLoaderPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
   async (server, { viteSertver: vite }) => {
     if (env.NODE_ENV === 'production') {
       server.register(fastifyStatic, {

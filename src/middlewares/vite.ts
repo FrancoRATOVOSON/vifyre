@@ -1,4 +1,4 @@
-import { env } from '../config'
+import { env } from '#/config'
 
 export async function createViteMiddleWare() {
   if (env.NODE_ENV === 'production') return

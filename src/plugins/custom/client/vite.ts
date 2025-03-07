@@ -1,13 +1,14 @@
 import fastifyPlugin from 'fastify-plugin'
+
 import { ViteDevServer } from 'vite'
 
-import { env } from '../../config'
+import { env } from '#/config'
 
-type FastifyPluginOptionsType = {
+type ViteLoaderPluginOptionsType = {
   viteSertver?: ViteDevServer
 }
 
-export const vitePlugin = fastifyPlugin<FastifyPluginOptionsType>(
+export const viteLoaderPlugin = fastifyPlugin<ViteLoaderPluginOptionsType>(
   async (server, { viteSertver: vite }) => {
     if (env.NODE_ENV === 'development' && vite) server.use(vite.middlewares)
   }

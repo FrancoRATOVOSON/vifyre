@@ -19,9 +19,9 @@
 
     "baseUrl": ".",
     "paths": {
-      "#server/*": ["./server/*"]
+      "#/*": ["./src/*"]
     }
   },
-  "include": ["./server","./vite.config.ts"],
-  "exclude": ["./client","node_modules"]
+  "include": ["./src","./vite.config.ts"],
+  "exclude": ["./src/client","node_modules"]
 }
