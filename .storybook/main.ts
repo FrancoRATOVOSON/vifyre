@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
-  stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  stories: ['../client/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     {
       name: '@storybook/addon-essentials',
@@ -16,7 +16,11 @@ const config: StorybookConfig = {
   ],
   framework: {
     name: '@storybook/react-vite',
-    options: {}
+    options: {
+      builder: {
+        viteConfigPath: 'sb-vite.config.ts'
+      }
+    }
   }
 }
 export default config
