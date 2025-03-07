@@ -1,5 +1,5 @@
 {
-  "include": ["./client**/*.ts","./client**/*.tsx","./server/**/*.ts"],
+  "include": ["./client/**/*.ts","./client/**/*.tsx","./server/**/*.ts"],
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
