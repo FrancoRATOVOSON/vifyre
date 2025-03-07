@@ -14,7 +14,7 @@
     "build": "npm run build:client && npm run build:server",
     "start": "node --env-file=.env dist/index.js",
     "lint": "eslint . --fix",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build"
   },
   "repository": {
@@ -47,6 +47,7 @@
     "envalid": "^8.0.0",
     "fastify": "^5.2.1",
     "fastify-plugin": "^5.0.1",
+    "framer-motion": "^12.4.10",
     "isbot": "^5",
     "lucide-react": "^0.477.0",
     "pino": "^9.6.0",
