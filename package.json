@@ -89,6 +89,7 @@
     "nodemon": "^3.1.9",
     "pino-pretty": "^13.0.0",
     "prettier": "^3.5.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "prisma": "^6.4.1",
     "storybook": "^8.6.4",
     "storybook-addon-remix-react-router": "^4.0.1",

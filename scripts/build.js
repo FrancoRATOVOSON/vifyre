@@ -30,8 +30,8 @@ async function getTSFiles(dir) {
     entries.map(entry => {
       const fullPath = path.join(dir, entry.name)
 
-      // Ignore the `src/client` directory
-      if (fullPath.includes('src/client')) {
+      // Ignore the `src/app` directory
+      if (fullPath.includes('src/app')) {
         return null
       }
 
