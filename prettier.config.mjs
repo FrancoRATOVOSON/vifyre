@@ -9,7 +9,8 @@ const config = {
   printWidth: 100,
   arrowParens: 'avoid',
   endOfLine: 'auto',
-  trailingComma: 'none'
+  trailingComma: 'none',
+  plugins: ['prettier-plugin-tailwindcss']
 }
 
 export default config

@@ -17,27 +17,27 @@ export const meta: MetaFunction = () => {
 
 export default function Route() {
   return (
-    <div className="p-10 flex flex-col justify-start gap-16">
-      <div className="w-full flex flex-col items-center gap-6">
+    <div className="flex flex-col justify-start gap-16 p-10">
+      <div className="flex w-full flex-col items-center gap-6">
         <TextShimmer className="text-2xl font-semibold tracking-wide">ViFyRe</TextShimmer>
-        <div className="w-fit h-80 rounded-2xl overflow-clip">
+        <div className="h-80 w-fit overflow-clip rounded-2xl">
           <img src={image} alt="Vifyre loogo" className="h-full" />
         </div>
       </div>
-      <div className="w-full flex flex-col justify-center items-center gap-4 mb-10">
+      <div className="mb-10 flex w-full flex-col items-center justify-center gap-4">
         <div>
           <div className="text-center font-medium">Welcome to FullStack!</div>
           <div className="font-light">
             You can start by trying wrong email, and then enter{' '}
-            <span className="font-normal text-pirmary underline">admin@admin.com</span>
+            <span className="text-pirmary font-normal underline">admin@admin.com</span>
           </div>
         </div>
-        <Form className="flex justify-start items-center gap-2 w-fit">
+        <Form className="flex w-fit items-center justify-start gap-2">
           <Input type="email" name="email" placeholder="Enter email to log in" />
           <Button type="submit">Log In</Button>
         </Form>
       </div>
-      <div className="flex justify-between flex-wrap gap-y-6">
+      <div className="flex flex-wrap justify-between gap-y-6">
         <LinkCard
           title="Fastify"
           href="https://fastify.dev/"
