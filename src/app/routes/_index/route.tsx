@@ -27,6 +27,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
     const result = await login(email)
     if (!result) return { message: 'User not found' }
+    localStorage.setItem('user', JSON.stringify(result))
     return redirect('/home')
   } catch (error) {
     return { error: (error as Error).message }
