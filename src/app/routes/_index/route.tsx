@@ -1,6 +1,8 @@
 import fastifyLogo from '#/app/assets/fastify.svg'
 
-import { Form, redirect, useActionData, type MetaFunction } from 'react-router'
+import { redirect, useFetcher, type MetaFunction } from 'react-router'
+
+import { Loader2 } from 'lucide-react'
 
 import type { Route } from '#react-router/routes/_index/+types/route'
 
@@ -32,7 +34,8 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 }
 
 export default function Page() {
-  const data = useActionData<Awaited<ReturnType<typeof clientAction>>>()
+  const fetcher = useFetcher()
+
   return (
     <div className="flex flex-col justify-start gap-16 p-10">
       <div className="flex w-full flex-col items-center gap-6">
@@ -49,17 +52,20 @@ export default function Page() {
             <span className="text-pirmary font-normal underline">admin@admin.com</span>
           </div>
         </div>
-        <Form className="flex w-fit items-start justify-start gap-2" method="POST">
+        <fetcher.Form className="flex w-fit items-start justify-start gap-2" method="post">
           <div className="flex flex-col gap-0">
             <Input type="email" name="email" placeholder="Enter email to log in" />
-            {data && !(data instanceof Response) ? (
+            {fetcher.data ? (
               <p className="ml-2 text-xs font-light text-destructive">
-                {data.message || data.error}
+                {fetcher.data.message || fetcher.data.error}
               </p>
             ) : null}
           </div>
-          <Button type="submit">Log In</Button>
-        </Form>
+          <Button type="submit" disabled={fetcher.state === 'submitting'}>
+            {fetcher.state === 'submitting' ? <Loader2 className="animate-spin" /> : null}
+            Log In
+          </Button>
+        </fetcher.Form>
       </div>
       <div className="flex flex-wrap justify-between gap-y-6">
         <LinkCard
