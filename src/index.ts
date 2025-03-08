@@ -26,6 +26,8 @@ async function main() {
 
     await app.ready()
     await app.listen({ port })
+
+    if (env.NODE_ENV !== 'production') console.log(app.routes)
   } catch (error) {
     app.log.error(error)
     process.exit(1)

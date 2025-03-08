@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify'
 
 import custom from './plugins/custom'
 import external from './plugins/external'
+import router from './router'
 
 export async function createApp(fastify: FastifyInstance) {
   /**
@@ -32,6 +33,7 @@ export async function createApp(fastify: FastifyInstance) {
 
   await fastify.register(external)
   await fastify.register(custom)
+  await fastify.register(router)
 
   fastify.setErrorHandler((err, request, reply) => {
     fastify.log.error(
