@@ -1,6 +1,6 @@
 {
   "restartable": "rs",
-  "ignore": [".git", "node_modules", "src/app"],
+  "ignore": [".git", "node_modules", "src/app", ".react-router"],
   "verbose": true,
   "execMap": {
     "ts": "node --import @swc-node/register/esm-register  --env-file=.env"

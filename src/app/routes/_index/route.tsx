@@ -1,6 +1,8 @@
 import fastifyLogo from '#/app/assets/fastify.svg'
 
-import { Form, type MetaFunction } from 'react-router'
+import { Form, redirect, useActionData, type MetaFunction } from 'react-router'
+
+import type { Route } from '#react-router/routes/_index/+types/route'
 
 import image from './ViFyRe_Image.png'
 import reactRouterLogo from '#/app/assets/react-router.svg'
@@ -10,12 +12,27 @@ import { LinkCard } from '#/app/components/common/app/link-card'
 import { Button } from '#/app/components/ui/button'
 import { Input } from '#/app/components/ui/input'
 import { TextShimmer } from '#/app/components/ui/text-shimmer'
+import { login } from '#/app/services/auth.service'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Vifyre' }]
 }
 
-export default function Route() {
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  try {
+    const email = (await request.formData()).get('email')
+    if (!email || typeof email !== 'string') return { message: 'Email is required' }
+
+    const result = await login(email)
+    if (!result) return { message: 'User not found' }
+    return redirect('/home')
+  } catch (error) {
+    return { error: (error as Error).message }
+  }
+}
+
+export default function Page() {
+  const data = useActionData<Awaited<ReturnType<typeof clientAction>>>()
   return (
     <div className="flex flex-col justify-start gap-16 p-10">
       <div className="flex w-full flex-col items-center gap-6">
@@ -32,8 +49,15 @@ export default function Route() {
             <span className="text-pirmary font-normal underline">admin@admin.com</span>
           </div>
         </div>
-        <Form className="flex w-fit items-center justify-start gap-2">
-          <Input type="email" name="email" placeholder="Enter email to log in" />
+        <Form className="flex w-fit items-start justify-start gap-2" method="POST">
+          <div className="flex flex-col gap-0">
+            <Input type="email" name="email" placeholder="Enter email to log in" />
+            {data && !(data instanceof Response) ? (
+              <p className="ml-2 text-xs font-light text-destructive">
+                {data.message || data.error}
+              </p>
+            ) : null}
+          </div>
           <Button type="submit">Log In</Button>
         </Form>
       </div>
