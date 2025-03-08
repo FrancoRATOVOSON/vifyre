@@ -1,15 +1,15 @@
-import fastifyLogo from '#client/assets/fastify.svg'
+import fastifyLogo from '#/app/assets/fastify.svg'
 
 import { Form, type MetaFunction } from 'react-router'
 
 import image from './ViFyRe_Image.png'
-import reactRouterLogo from '#client/assets/react-router.svg'
-import reactLogo from '#client/assets/react.svg'
-import viteLogo from '#client/assets/vite.svg'
-import { LinkCard } from '#client/components/common/app/link-card'
-import { Button } from '#client/components/ui/button'
-import { Input } from '#client/components/ui/input'
-import { TextShimmer } from '#client/components/ui/text-shimmer'
+import reactRouterLogo from '#/app/assets/react-router.svg'
+import reactLogo from '#/app/assets/react.svg'
+import viteLogo from '#/app/assets/vite.svg'
+import { LinkCard } from '#/app/components/common/app/link-card'
+import { Button } from '#/app/components/ui/button'
+import { Input } from '#/app/components/ui/input'
+import { TextShimmer } from '#/app/components/ui/text-shimmer'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Vifyre' }]

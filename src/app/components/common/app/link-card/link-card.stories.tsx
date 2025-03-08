@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { LinkCard } from './link-card'
-import reactLogo from '#client/assets/react.svg'
+import reactLogo from '#/app/assets/react.svg'
 
 const meta: Meta<typeof LinkCard> = {
   title: 'LinkCard',

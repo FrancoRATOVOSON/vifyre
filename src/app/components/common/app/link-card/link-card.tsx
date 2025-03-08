@@ -1,7 +1,7 @@
 import { ExternalLink } from 'lucide-react'
 
-import { Card, CardContent, CardHeader } from '#client/components/ui/card'
-import { cn } from '#client/lib/utils'
+import { Card, CardContent, CardHeader } from '#/app/components/ui/card'
+import { cn } from '#/app/lib/utils'
 interface LinkCardProps {
   href: string
   logo: string
