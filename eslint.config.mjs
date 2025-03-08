@@ -1,9 +1,13 @@
 import eslint from '@eslint/js'
 import perfectionist from 'eslint-plugin-perfectionist'
 import eslintPluginPretttierRecommended from 'eslint-plugin-prettier/recommended'
+import neo from 'neostandard'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
+  ...neo({
+    ts: true
+  }),
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {

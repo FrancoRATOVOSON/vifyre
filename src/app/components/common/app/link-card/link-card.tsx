@@ -14,7 +14,12 @@ export function LinkCard({ href, logo, title, description, className }: LinkCard
   return (
     <Card className={cn(className)}>
       <CardHeader>
-        <a href={href} target="_blank" className="flex items-center justify-between">
+        <a
+          href={href}
+          target="_blank"
+          className="flex items-center justify-between"
+          rel="noreferrer"
+        >
           <div className="flex items-center justify-start gap-4">
             <div className="flex size-8 items-center justify-center">
               <img src={logo} alt={`${title} logo`} className="size-full" />

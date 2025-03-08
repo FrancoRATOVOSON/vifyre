@@ -86,6 +86,7 @@
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-storybook": "^0.11.4",
     "import-meta-resolve": "^4.1.0",
+    "neostandard": "^0.12.1",
     "nodemon": "^3.1.9",
     "pino-pretty": "^13.0.0",
     "prettier": "^3.5.2",
