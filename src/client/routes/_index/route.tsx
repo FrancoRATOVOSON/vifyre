@@ -37,7 +37,7 @@ export default function Route() {
           <Button type="submit">Log In</Button>
         </Form>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between flex-wrap gap-y-6">
         <LinkCard
           title="Fastify"
           href="https://fastify.dev/"
