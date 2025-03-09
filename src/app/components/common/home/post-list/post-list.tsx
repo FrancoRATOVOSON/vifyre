@@ -8,9 +8,13 @@ interface PostListProps {
 
 export function PostList({ posts }: PostListProps) {
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       {posts.map(({ id, title }, idx) => (
-        <Link key={id} to="#">{`${idx + 1} - ${title}`}</Link>
+        <Link
+          key={id}
+          to={`/post/${id}`}
+          className="text-blue-950 hover:underline hover:text-blue-600"
+        >{`${idx + 1} - ${title}`}</Link>
       ))}
     </div>
   )

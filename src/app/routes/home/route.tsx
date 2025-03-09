@@ -1,30 +1,28 @@
-import { redirect, useLoaderData } from 'react-router'
+import React from 'react'
 
 import type { User } from '@prisma/client'
 
+import { Posts } from './posts'
 import { UserCard } from '#/app/components/common/home/user-card'
 
-export async function clientLoader() {
-  try {
-    const storageItem = localStorage.getItem('user')
-
-    if (!storageItem) return redirect('/')
-    const user: User = JSON.parse(storageItem)
-    return { data: user }
-  } catch (_error) {
-    return redirect('/')
-  }
-}
-
-type LoaderDataType = Exclude<Awaited<ReturnType<typeof clientLoader>>, Response>
-
 export default function Page() {
-  const user = useLoaderData<LoaderDataType>().data
+  const [user, setUser] = React.useState<User | null>(null)
+
+  React.useEffect(() => {
+    try {
+      const storageItem = localStorage.getItem('user')
+      if (storageItem) {
+        const user = JSON.parse(storageItem)
+        setUser(user)
+      }
+    } catch (_error) {}
+  }, [])
 
   return (
-    <div>
+    <div className="p-16 flex flex-col items-center gap-10">
+      <div>{user ? <UserCard className="w-fit" user={user} /> : <h1>Home</h1>}</div>
       <div>
-        <UserCard user={user} />
+        <Posts />
       </div>
     </div>
   )
