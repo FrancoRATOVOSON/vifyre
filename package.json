@@ -1,7 +1,7 @@
 {
   "name": "vifyre",
   "version": "0.1.0",
-  "description": "Vite standing between React and Fastify to offer a very fast and great SSR tool.",
+  "description": "React server sode rendered powered by Fastify, Vite and React Router",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
