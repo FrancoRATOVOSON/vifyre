@@ -135,3 +135,4 @@ dist
 **/*.db
 **/*.db-journal
 *storybook.log
+.react-router
