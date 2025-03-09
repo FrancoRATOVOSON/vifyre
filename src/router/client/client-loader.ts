@@ -8,6 +8,7 @@ import { ViteDevServer } from 'vite'
 
 import { createReactRouterHandler } from './handler'
 import { env } from '#/config'
+import { ServerContextType } from '#/utils/types'
 
 const clientPath = '../../../'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -42,7 +43,7 @@ export const clientLoaderPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
           ? import(`${clientPath}/server/index.js`)
           : // @ts-expect-error - virtual module provided by React Router at build time
             vite.ssrLoadModule('virtual:react-router/server-build'),
-      getLoadContext: () => ({ someKey: 'someValue' }),
+      getLoadContext: () => ({ prisma: server.prisma }) satisfies ServerContextType,
       mode: env.NODE_ENV
     })
 

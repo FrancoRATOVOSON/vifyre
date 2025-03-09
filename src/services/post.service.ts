@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { Post, PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 
 import { postsList } from '#/schema/post.schema'
@@ -16,5 +16,14 @@ export const getPostList = async (
     return {
       error: error as Error
     }
+  }
+}
+
+export const getPost = async (prisma: PrismaClient, id: number): Promise<Result<Post | null>> => {
+  try {
+    const result = await prisma.post.findUnique({ where: { id } })
+    return { data: result }
+  } catch (error) {
+    return { error: error as Error }
   }
 }

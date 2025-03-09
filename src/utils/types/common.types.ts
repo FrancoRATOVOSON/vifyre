@@ -7,6 +7,8 @@ import {
   RouteOptions
 } from 'fastify'
 
+import { PrismaClient } from '@prisma/client'
+
 export type Result<T, E extends Error = Error> =
   | {
       data: T
@@ -28,3 +30,7 @@ export type RouteType<RouteGeneric extends RouteGenericInterface = RouteGenericI
 export type CreateRouteObjectFunctionType<
   RouteGeneric extends RouteGenericInterface = RouteGenericInterface
 > = (fastify: FastifyInstance) => RouteType<RouteGeneric>
+
+export type ServerContextType = {
+  prisma: PrismaClient
+}
