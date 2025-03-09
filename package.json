@@ -15,7 +15,8 @@
     "start": "node --env-file=.env dist/index.js",
     "lint": "eslint . --fix",
     "storybook": "storybook dev -p 6006 --no-open",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "client:typegen": "react-router typegen"
   },
   "repository": {
     "type": "git",
