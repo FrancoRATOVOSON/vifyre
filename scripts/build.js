@@ -31,7 +31,7 @@ async function getTSFiles(dir) {
       const fullPath = path.join(dir, entry.name)
 
       // Ignore the `src/app` directory
-      if (fullPath.includes('src/app')) {
+      if (fullPath.includes('src/app/')) {
         return null
       }
 
@@ -59,8 +59,12 @@ async function fixImports(sourceCode, filePath) {
         if (resolved.includes('node_modules')) return match // ✅ Keep as-is dependencies
 
         switch (err.code) {
-          case 'ERR_UNSUPPORTED_DIR_IMPORT':
-            return `import ${importClause} from "${importPath}/index.js";` // ✅ Add index.js
+          case 'ERR_UNSUPPORTED_DIR_IMPORT': {
+            const newImportPath = importPath.includes('app')
+              ? `${importPath}.js`
+              : `${importPath}/index.js`
+            return `import ${importClause} from "${newImportPath}";`
+          } // ✅ Add index.js
           case 'ERR_MODULE_NOT_FOUND':
             return `import ${importClause} from "${importPath}.js";` // ✅ Add .js
           default:

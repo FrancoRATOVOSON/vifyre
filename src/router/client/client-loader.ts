@@ -10,7 +10,7 @@ import { createReactRouterHandler } from './handler'
 import { env } from '#/config'
 import { ServerContextType } from '#/utils/types'
 
-const clientPath = '../../../'
+const clientPath = '../../'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 type FastifyPluginClientOptionsType = {
