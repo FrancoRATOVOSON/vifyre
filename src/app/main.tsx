@@ -1,30 +1,18 @@
 import './main.css'
 
-import { StrictMode } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { StartClient } from '@tanstack/react-start'
 
-// Import the generated route tree
-import { routeTree } from './routeTree.gen'
+import { createRouter } from './router'
 
-// Create a new router instance
-const router = createRouter({ routeTree })
+const router = createRouter()
 
-// Register the router instance for type safety
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router
-  }
-}
-
-// Render the app
-const rootElement = document.getElementById('root')!
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement)
-  root.render(
-    <StrictMode>
-      <RouterProvider router={router} />
-    </StrictMode>
-  )
-}
+ReactDOM.hydrateRoot(
+  document,
+  <React.StrictMode>
+    {/* @ts-expect-error still the router infering error */}
+    <StartClient router={router} />
+  </React.StrictMode>
+)
