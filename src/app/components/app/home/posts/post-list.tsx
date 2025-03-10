@@ -1,6 +1,6 @@
-import { Link } from 'react-router'
-
 import type { Post } from '@prisma/client'
+
+import { Link } from '@tanstack/react-router'
 
 interface PostListProps {
   posts: Array<Omit<Post, 'content'>>

@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { AlertCircle } from 'lucide-react'
 
-import { PostList } from '#/app/components/common/home/post-list'
+import { PostList } from './post-list'
 import { Alert, AlertDescription, AlertTitle } from '#/app/components/ui/alert'
 import { Skeleton } from '#/app/components/ui/skeleton'
 import { getPostList } from '#/app/services/post.service'
 
-export function Posts() {
+export const Posts = () => {
   const { data, isLoading, error } = useQuery({ queryKey: ['get-post-list'], queryFn: getPostList })
 
   if (isLoading) return <Skeleton className="h-10 w-64" />

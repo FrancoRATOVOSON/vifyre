@@ -3,9 +3,9 @@ import React from 'react'
 import type { User } from '@prisma/client'
 
 import { Posts } from './posts'
-import { UserCard } from '#/app/components/common/home/user-card'
+import { UserCard } from './user-card'
 
-export default function Page() {
+export const HomePage = () => {
   const [user, setUser] = React.useState<User | null>(null)
 
   React.useEffect(() => {
