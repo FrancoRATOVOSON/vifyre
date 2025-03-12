@@ -12,7 +12,8 @@ export function PostList({ posts }: PostListProps) {
       {posts.map(({ id, title }, idx) => (
         <Link
           key={id}
-          to={`/post/${id}`}
+          to="/posts/$id"
+          params={{ id: id.toString() }}
           className="text-blue-950 hover:underline hover:text-blue-600"
         >{`${idx + 1} - ${title}`}</Link>
       ))}

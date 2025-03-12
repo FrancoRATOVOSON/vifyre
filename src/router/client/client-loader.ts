@@ -6,9 +6,7 @@ import fastifyPlugin from 'fastify-plugin'
 
 import { ViteDevServer } from 'vite'
 
-import { createReactRouterHandler } from './handler'
 import { env } from '#/config'
-import { ServerContextType } from '#/utils/types'
 
 const clientPath = '../../'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -37,19 +35,19 @@ export const clientLoaderPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
       })
     }
 
-    const handler = createReactRouterHandler({
-      build: () =>
-        env.NODE_ENV === 'production'
-          ? import(`${clientPath}/server/index.js`)
-          : // @ts-expect-error - virtual module provided by React Router at build time
-            vite.ssrLoadModule('virtual:react-router/server-build'),
-      getLoadContext: () => ({ prisma: server.prisma }) satisfies ServerContextType,
-      mode: env.NODE_ENV
-    })
-
     server.get('*', async (request, reply) => {
       try {
-        return handler(request, reply)
+        // @ts-expect-error wait a minuute dude
+        const { routerHandler } = await vite?.ssrLoadModule('/src/app/handler.tsx')
+        return await routerHandler(request, reply)
+        // const { appHtml } = await routerHandler(request.url)
+        // console.log('APPHTML-------------------------------------')
+        // console.log(appHtml)
+        // console.log('--------------------------------------------')
+
+        // reply.status(200)
+        // reply.type('text/html')
+        // reply.send(appHtml)
       } catch (error) {
         vite?.ssrFixStacktrace(error as Error)
         server.log.error(error)
