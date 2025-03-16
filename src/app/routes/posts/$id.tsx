@@ -12,6 +12,5 @@ const RouteComponent = () => {
 }
 
 export const Route = createFileRoute('/posts/$id')({
-  // loader: ({params}) =>
   component: RouteComponent
 })

@@ -1,5 +1,3 @@
-import './main.css'
-
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
@@ -12,7 +10,6 @@ const router = createRouter()
 ReactDOM.hydrateRoot(
   document,
   <React.StrictMode>
-    {/* @ts-expect-error still the router infering error */}
     <StartClient router={router} />
   </React.StrictMode>
 )

@@ -1,11 +1,14 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import fastifyStatic from '@fastify/static'
 import fastifyPlugin from 'fastify-plugin'
 
 import { ViteDevServer } from 'vite'
 
+import type { ServerEntryRouteHandler } from './types'
+
+import { createRequest, sendResponse } from './utils.js'
 import { env } from '#/config'
 
 const clientPath = '../../'
@@ -35,19 +38,29 @@ export const clientLoaderPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
       })
     }
 
-    server.get('*', async (request, reply) => {
+    server.get('*', async (req, reply) => {
       try {
-        // @ts-expect-error wait a minuute dude
-        const { routerHandler } = await vite?.ssrLoadModule('/src/app/handler.tsx')
-        return await routerHandler(request, reply)
-        // const { appHtml } = await routerHandler(request.url)
-        // console.log('APPHTML-------------------------------------')
-        // console.log(appHtml)
-        // console.log('--------------------------------------------')
+        let viteHead: string
+        let routerHandler: ServerEntryRouteHandler
+        if (vite && env.NODE_ENV !== 'production') {
+          viteHead = await vite.transformIndexHtml(
+            req.url,
+            `<html><head></head><body></body></html>`
+          )
+          const module = await vite.ssrLoadModule('/src/app/entry-server.tsx')
+          routerHandler = module.routerHandler
+        } else {
+          viteHead = ''
+          const module = await import('../../app/entry-server.js')
+          routerHandler = module.routerHandler
+        }
 
-        // reply.status(200)
-        // reply.type('text/html')
-        // reply.send(appHtml)
+        const head = viteHead.substring(viteHead.indexOf('<head>') + 6, viteHead.indexOf('</head>'))
+
+        const request = createRequest(req, reply)
+        const response = await routerHandler(request, head)
+
+        return sendResponse(reply, response)
       } catch (error) {
         vite?.ssrFixStacktrace(error as Error)
         server.log.error(error)
