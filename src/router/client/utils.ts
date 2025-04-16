@@ -1,4 +1,3 @@
-import { type createReadableStreamFromReadable as CreateReadableStreamFromReadable } from '@react-router/node'
 import { Readable } from 'node:stream'
 
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify'
@@ -34,8 +33,7 @@ const createHeaders = (requestHeaders: FastifyRequest['headers']): Headers => {
 
 export const createRequest = <Server extends HttpServer>(
   request: FastifyRequest<RouteGenericInterface, Server>,
-  reply: FastifyReply<RouteGenericInterface, Server>,
-  createReadableStreamFromReadable: typeof CreateReadableStreamFromReadable
+  reply: FastifyReply<RouteGenericInterface, Server>
 ): Request => {
   const url = getUrl(request)
 
@@ -55,8 +53,11 @@ export const createRequest = <Server extends HttpServer>(
   reply.raw.on('close', () => controller?.abort())
 
   if (request.method !== 'GET' && request.method !== 'HEAD') {
-    init.body = createReadableStreamFromReadable(request.raw)
-    // init.duplex = 'half'
+    if (typeof request.body === 'string') {
+      init.body = request.body
+    } else {
+      init.body = JSON.stringify(request.body)
+    }
   }
 
   return new Request(url, init)

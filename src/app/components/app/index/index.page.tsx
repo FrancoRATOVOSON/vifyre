@@ -1,41 +1,35 @@
 import fastifyLogo from '#/app/assets/fastify.svg'
 
-import { redirect, useFetcher, type MetaFunction } from 'react-router'
-
+import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 
-import type { Route } from '#react-router/routes/_index/+types/route'
-
-import image from './ViFyRe_Image.png'
 import reactRouterLogo from '#/app/assets/react-router.svg'
 import reactLogo from '#/app/assets/react.svg'
+import image from '#/app/assets/ViFyRe_Image.png'
 import viteLogo from '#/app/assets/vite.svg'
-import { LinkCard } from '#/app/components/common/app/link-card'
+import { LinkCard } from '#/app/components/app/index/link-card'
 import { Button } from '#/app/components/ui/button'
 import { Input } from '#/app/components/ui/input'
 import { TextShimmer } from '#/app/components/ui/text-shimmer'
 import { login } from '#/app/services/auth.service'
 
-export const meta: MetaFunction = () => {
-  return [{ title: 'Vifyre' }]
+interface IndexPageProps {
+  onSuccess: () => Promise<void>
 }
 
-export async function clientAction({ request }: Route.ClientActionArgs) {
-  try {
-    const email = (await request.formData()).get('email')
-    if (!email || typeof email !== 'string') return { message: 'Email is required' }
+export const IndexPage = ({ onSuccess }: IndexPageProps) => {
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: login,
+    onSuccess
+  })
 
-    const result = await login(email)
-    if (!result) return { message: 'User not found' }
-    localStorage.setItem('user', JSON.stringify(result))
-    return redirect('/home')
-  } catch (error) {
-    return { error: (error as Error).message }
+  const onSubmit = (formData: FormData) => {
+    const email = formData.get('email')
+
+    if (typeof email === 'string') {
+      mutate(email)
+    }
   }
-}
-
-export default function Page() {
-  const fetcher = useFetcher()
 
   return (
     <div className="flex flex-col justify-start gap-16 p-10">
@@ -53,20 +47,16 @@ export default function Page() {
             <span className="text-pirmary font-normal underline">admin@admin.com</span>
           </div>
         </div>
-        <fetcher.Form className="flex w-fit items-start justify-start gap-2" method="post">
+        <form className="flex w-fit items-start justify-start gap-2" action={onSubmit}>
           <div className="flex flex-col gap-0">
             <Input type="email" name="email" placeholder="Enter email to log in" />
-            {fetcher.data ? (
-              <p className="ml-2 text-xs font-light text-destructive">
-                {fetcher.data.message || fetcher.data.error}
-              </p>
-            ) : null}
+            {error && <p className="text-destructive text-sm font-light">{error.message}</p>}
           </div>
-          <Button type="submit" disabled={fetcher.state === 'submitting'}>
-            {fetcher.state === 'submitting' ? <Loader2 className="animate-spin" /> : null}
+          <Button type="submit" disabled={isPending}>
+            {isPending && <Loader2 className="animate-spin" />}
             Log In
           </Button>
-        </fetcher.Form>
+        </form>
       </div>
       <div className="flex flex-wrap justify-between gap-y-6">
         <LinkCard

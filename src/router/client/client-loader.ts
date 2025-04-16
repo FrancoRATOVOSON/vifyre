@@ -1,14 +1,15 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import fastifyStatic from '@fastify/static'
 import fastifyPlugin from 'fastify-plugin'
 
 import { ViteDevServer } from 'vite'
 
-import { createReactRouterHandler } from './handler'
+import type { ServerEntryRouteHandler } from './types'
+
+import { createRequest, sendResponse } from './utils.js'
 import { env } from '#/config'
-import { ServerContextType } from '#/utils/types'
 
 const clientPath = '../../'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -37,19 +38,29 @@ export const clientLoaderPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
       })
     }
 
-    const handler = createReactRouterHandler({
-      build: () =>
-        env.NODE_ENV === 'production'
-          ? import(`${clientPath}/server/index.js`)
-          : // @ts-expect-error - virtual module provided by React Router at build time
-            vite.ssrLoadModule('virtual:react-router/server-build'),
-      getLoadContext: () => ({ prisma: server.prisma }) satisfies ServerContextType,
-      mode: env.NODE_ENV
-    })
-
-    server.get('*', async (request, reply) => {
+    server.get('*', async (req, reply) => {
       try {
-        return handler(request, reply)
+        let viteHead: string
+        let routerHandler: ServerEntryRouteHandler
+        if (vite && env.NODE_ENV !== 'production') {
+          viteHead = await vite.transformIndexHtml(
+            req.url,
+            `<html><head></head><body></body></html>`
+          )
+          const module = await vite.ssrLoadModule('/src/app/entry-server.tsx')
+          routerHandler = module.routerHandler
+        } else {
+          viteHead = ''
+          const module = await import('../../app/entry-server.js')
+          routerHandler = module.routerHandler
+        }
+
+        const head = viteHead.substring(viteHead.indexOf('<head>') + 6, viteHead.indexOf('</head>'))
+
+        const request = createRequest(req, reply)
+        const response = await routerHandler(request, server.prisma, head)
+
+        return sendResponse(reply, response)
       } catch (error) {
         vite?.ssrFixStacktrace(error as Error)
         server.log.error(error)
