@@ -27,3 +27,7 @@ React router V7 is a very mature project (since it's basically Remix) with a str
 ## Credits
 
 * [Frank Fiegel](https://twitter.com/punkpeye)'s article on [React Router v7 and Fastify](https://glama.ai/blog/2024-12-05-remix-with-fastify)
+
+## Future
+
+Note that this stack is temporary, waiting for [@fastify/React](https://fastify-vite.dev/react/) to be both pproduction and Typescript Ready.
