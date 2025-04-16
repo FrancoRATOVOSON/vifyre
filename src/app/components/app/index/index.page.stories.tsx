@@ -4,10 +4,14 @@ import { IndexPage } from './index.page'
 
 const meta: Meta<typeof IndexPage> = {
   title: 'Home Page',
-  render: () => <IndexPage />
+  component: IndexPage
 }
 
 export default meta
 type Story = StoryObj<typeof IndexPage>
 
-export const Page: Story = {}
+export const Page: Story = {
+  args: {
+    onSuccess: async () => {}
+  }
+}

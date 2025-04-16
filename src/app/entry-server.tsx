@@ -1,10 +1,15 @@
+import { PrismaClient } from '@prisma/client'
 import { createRequestHandler, defaultStreamHandler } from '@tanstack/react-start-server'
 
 import type { ServerEntryRouteHandler } from '#/router/client/types'
 
 import { createRouter } from '#/app/router'
 
-export const routerHandler: ServerEntryRouteHandler = async (request: Request, head: string) => {
+export const routerHandler: ServerEntryRouteHandler = async (
+  request: Request,
+  prisma: PrismaClient,
+  head: string
+) => {
   const handler = createRequestHandler({
     request,
     createRouter: () => {
@@ -13,7 +18,8 @@ export const routerHandler: ServerEntryRouteHandler = async (request: Request, h
       router.update({
         context: {
           ...router.options.context,
-          head
+          head,
+          prisma
         }
       })
 

@@ -58,7 +58,7 @@ export const clientLoaderPlugin = fastifyPlugin<FastifyPluginClientOptionsType>(
         const head = viteHead.substring(viteHead.indexOf('<head>') + 6, viteHead.indexOf('</head>'))
 
         const request = createRequest(req, reply)
-        const response = await routerHandler(request, head)
+        const response = await routerHandler(request, server.prisma, head)
 
         return sendResponse(reply, response)
       } catch (error) {

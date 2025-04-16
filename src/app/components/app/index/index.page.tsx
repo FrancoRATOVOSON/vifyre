@@ -1,5 +1,8 @@
 import fastifyLogo from '#/app/assets/fastify.svg'
 
+import { useMutation } from '@tanstack/react-query'
+import { Loader2 } from 'lucide-react'
+
 import reactRouterLogo from '#/app/assets/react-router.svg'
 import reactLogo from '#/app/assets/react.svg'
 import image from '#/app/assets/ViFyRe_Image.png'
@@ -8,8 +11,26 @@ import { LinkCard } from '#/app/components/app/index/link-card'
 import { Button } from '#/app/components/ui/button'
 import { Input } from '#/app/components/ui/input'
 import { TextShimmer } from '#/app/components/ui/text-shimmer'
+import { login } from '#/app/services/auth.service'
 
-export const IndexPage = () => {
+interface IndexPageProps {
+  onSuccess: () => Promise<void>
+}
+
+export const IndexPage = ({ onSuccess }: IndexPageProps) => {
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: login,
+    onSuccess
+  })
+
+  const onSubmit = (formData: FormData) => {
+    const email = formData.get('email')
+
+    if (typeof email === 'string') {
+      mutate(email)
+    }
+  }
+
   return (
     <div className="flex flex-col justify-start gap-16 p-10">
       <div className="flex w-full flex-col items-center gap-6">
@@ -26,11 +47,15 @@ export const IndexPage = () => {
             <span className="text-pirmary font-normal underline">admin@admin.com</span>
           </div>
         </div>
-        <form className="flex w-fit items-start justify-start gap-2" method="post">
+        <form className="flex w-fit items-start justify-start gap-2" action={onSubmit}>
           <div className="flex flex-col gap-0">
             <Input type="email" name="email" placeholder="Enter email to log in" />
+            {error && <p className="text-destructive text-sm font-light">{error.message}</p>}
           </div>
-          <Button type="submit">Log In</Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending && <Loader2 className="animate-spin" />}
+            Log In
+          </Button>
         </form>
       </div>
       <div className="flex flex-wrap justify-between gap-y-6">

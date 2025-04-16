@@ -14,7 +14,7 @@ export function PostList({ posts }: PostListProps) {
           key={id}
           to="/posts/$id"
           params={{ id: id.toString() }}
-          className="text-blue-950 hover:underline hover:text-blue-600"
+          className="text-blue-950 hover:text-blue-600 hover:underline"
         >{`${idx + 1} - ${title}`}</Link>
       ))}
     </div>

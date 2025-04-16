@@ -1,25 +1,15 @@
-import React from 'react'
-
 import type { User } from '@prisma/client'
 
 import { Posts } from './posts'
 import { UserCard } from './user-card'
 
-export const HomePage = () => {
-  const [user, setUser] = React.useState<User | null>(null)
+interface HomePageProps {
+  user: User
+}
 
-  React.useEffect(() => {
-    try {
-      const storageItem = localStorage.getItem('user')
-      if (storageItem) {
-        const user = JSON.parse(storageItem)
-        setUser(user)
-      }
-    } catch (_error) {}
-  }, [])
-
+export const HomePage = ({ user }: HomePageProps) => {
   return (
-    <div className="p-16 flex flex-col items-center gap-10">
+    <div className="flex flex-col items-center gap-10 p-16">
       <div>{user ? <UserCard className="w-fit" user={user} /> : <h1>Home</h1>}</div>
       <div>
         <Posts />
