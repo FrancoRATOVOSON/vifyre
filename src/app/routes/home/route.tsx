@@ -19,7 +19,7 @@ export default function Page() {
   }, [])
 
   return (
-    <div className="p-16 flex flex-col items-center gap-10">
+    <div className="flex flex-col items-center gap-10 p-16">
       <div>{user ? <UserCard className="w-fit" user={user} /> : <h1>Home</h1>}</div>
       <div>
         <Posts />

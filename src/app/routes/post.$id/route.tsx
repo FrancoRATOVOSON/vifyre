@@ -20,8 +20,8 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="mt-16 flex flex-col gap-10">
-      <h1 className="text-4xl font-medium text-center">{data.title}</h1>
-      <p className="self-center w-1/2">{data.content}</p>
+      <h1 className="text-center text-4xl font-medium">{data.title}</h1>
+      <p className="w-1/2 self-center">{data.content}</p>
     </div>
   )
 }

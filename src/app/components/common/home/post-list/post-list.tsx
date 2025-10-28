@@ -13,7 +13,7 @@ export function PostList({ posts }: PostListProps) {
         <Link
           key={id}
           to={`/post/${id}`}
-          className="text-blue-950 hover:underline hover:text-blue-600"
+          className="text-blue-950 hover:text-blue-600 hover:underline"
         >{`${idx + 1} - ${title}`}</Link>
       ))}
     </div>

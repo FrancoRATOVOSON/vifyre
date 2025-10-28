@@ -1,3 +1,5 @@
 export * from './env'
 export * from './logger'
 export * from './server'
+export * from './vifyre-config'
+export * from './load-config'

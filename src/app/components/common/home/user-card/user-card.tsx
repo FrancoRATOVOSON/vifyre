@@ -13,8 +13,8 @@ interface UserCardProps {
 export function UserCard({ user: { name, email }, className }: UserCardProps) {
   return (
     <Card className={cn(className)}>
-      <CardHeader className="flex flex-row justify-start items-start">
-        <div className="flex justify-center items-center size-7">
+      <CardHeader className="flex flex-row items-start justify-start">
+        <div className="flex size-7 items-center justify-center">
           <UserRound className="size-5" />
         </div>
         <div>

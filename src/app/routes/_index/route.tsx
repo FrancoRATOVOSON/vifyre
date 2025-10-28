@@ -57,7 +57,7 @@ export default function Page() {
           <div className="flex flex-col gap-0">
             <Input type="email" name="email" placeholder="Enter email to log in" />
             {fetcher.data ? (
-              <p className="ml-2 text-xs font-light text-destructive">
+              <p className="text-destructive ml-2 text-xs font-light">
                 {fetcher.data.message || fetcher.data.error}
               </p>
             ) : null}
