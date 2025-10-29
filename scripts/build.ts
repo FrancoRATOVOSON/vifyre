@@ -9,7 +9,7 @@ import { transformFile } from '@swc/core'
 import { moduleResolve, resolve } from 'import-meta-resolve'
 import { convert } from 'tsconfig-to-swcconfig'
 
-import { loadViFyReConfig } from '../src/config/load-config.js'
+import { loadViFyReConfig } from '../src/config/load-config.ts'
 
 // Load ViFyRe configuration
 const config = await loadViFyReConfig()

@@ -1,4 +1,4 @@
-import { defineConfig } from './src/config/vifyre-config'
+import { defineConfig } from './src/config/vifyre-config.ts'
 
 export default defineConfig({
   // Server configuration

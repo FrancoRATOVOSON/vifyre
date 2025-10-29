@@ -64,8 +64,15 @@ function loadTsConfigPaths(rootDir: string): Record<string, string[]> {
 
   try {
     const tsconfigContent = readFileSync(configPath, 'utf-8')
-    // Remove comments from JSON (tsconfig allows comments)
-    const jsonContent = tsconfigContent.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
+    // Use a more robust approach: strip comments properly for JSONC (JSON with Comments)
+    const jsonContent = tsconfigContent
+      // Remove multi-line comments /* ... */
+      .replace(/\/\*[\s\S]*?\*\//gm, '')
+      // Remove single-line comments //...
+      .replace(/^\s*\/\/.*/gm, '')
+      // Remove trailing commas before closing braces/brackets
+      .replace(/,(\s*[}\]])/g, '$1')
+
     const tsconfig = JSON.parse(jsonContent)
 
     return tsconfig.compilerOptions?.paths || {}
