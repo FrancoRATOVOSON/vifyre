@@ -8,7 +8,7 @@
   "events": {
     "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
   },
-  "watch": ["vite.config.ts", ".env", "src/"],
+  "watch": ["vite.config.ts", ".env.local", "src/"],
   "env": {
     "TS_NODE_PROJECT": "./tsconfig.node.json"
   },
