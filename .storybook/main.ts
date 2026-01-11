@@ -11,16 +11,11 @@ const config: StorybookConfig = {
     },
     '@storybook/addon-onboarding',
     '@chromatic-com/storybook',
-    '@storybook/addon-interactions',
-    'storybook-addon-remix-react-router'
+    '@storybook/addon-interactions'
   ],
   framework: {
     name: '@storybook/react-vite',
-    options: {
-      builder: {
-        viteConfigPath: 'sb-vite.config.ts'
-      }
-    }
+    options: {}
   }
 }
 export default config

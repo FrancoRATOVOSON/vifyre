@@ -34,7 +34,7 @@ export default tseslint.config(
     }
   },
   {
-    ignores: ['**/dist', '**/node_modules', '**/build', '.react-router']
+    ignores: ['**/dist', '**/node_modules', '**/build', './src/app/routeTree.gen.ts']
   },
   {
     plugins: {

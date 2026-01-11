@@ -17,7 +17,7 @@ const createLoginRoute: CreateRouteObjectFunctionType<{
 
     if (result.error) throw result.error
 
-    if (!result.data) rep.status(404).send()
+    if (!result.data) rep.status(400).send('User not found')
     else rep.status(200).send(result.data)
   }
 })
